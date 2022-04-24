@@ -10,7 +10,7 @@ import (
 )
 
 func ConnectDB() *mongo.Client {
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://admin:admin@cluster0.ymdy2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"))
+	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://admin:admin@cluster0.ymdy2.mongodb.net/ctc-api?retryWrites=true&w=majority"))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -29,9 +29,9 @@ func ConnectDB() *mongo.Client {
 	return client
 }
 
-var DB *mongo.Client = ConnectDB()
+//var DB = ConnectDB()
 
 func GetCollection(client *mongo.Client, collectionName string) *mongo.Collection {
-	collection := client.Database("golangAPI").Collection(collectionName)
+	collection := client.Database("ctcAPI").Collection(collectionName)
 	return collection
 }
