@@ -6,7 +6,8 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
 	"net/http"
 	"time"
@@ -21,51 +22,52 @@ type Product struct {
 
 var Products []Product
 
-/*
 func homePage(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Welcome home!")
 }
-*/
 
 func returnAllProducts(w http.ResponseWriter, r *http.Request) {
+	ctx, _ := context.WithTimeout(context.Background(), 30*time.Second)
+	result, _ := collection.Find(ctx, bson.M{})
+	result.All(ctx, &Products)
 	fmt.Println("Endpoint Hit: returnAllProducts")
+	fmt.Println(Products)
 	json.NewEncoder(w).Encode(Products)
 }
 
-func getProduct() http.HandlerFunc {
-	return func(rw http.ResponseWriter, r *http.Request) {
-		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-		params := mux.Vars(r)
-		ID := params["ID"]
-		defer cancel()
-
-		objId, _ := primitive.ObjectIDFromHex(ID)
-
-		err := productCollection.FindOne(ctx, bson.M{"id": ID}).Decode(&ID)
-		if err != nil {
-			rw.WriteHeader(http.StatusInternalServerError)
-			return
+func getProduct(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	ID := params["name"]
+	fmt.Println(ID)
+	fmt.Println("Endpoint Hit: returnAllProducts")
+	for _, singleEvent := range Products {
+		if singleEvent.ID == ID {
+			json.NewEncoder(w).Encode(singleEvent)
 		}
-		var result bson.M
-		fmt.Println(result)
 	}
 }
 
 func handleRequests() {
 	router := mux.NewRouter().StrictSlash(true)
-	//router.HandleFunc("/", homePage)
-	router.HandleFunc("/products/list", returnAllProducts).Methods("LIST")
+	router.HandleFunc("/", homePage)
+	router.HandleFunc("/products/list", returnAllProducts).Methods("GET")
 	router.HandleFunc("/product/{Name}", getProduct).Methods("GET")
-	router.HandleFunc("/product/{Name}", updateProduct).Methods("UPDATE")
-	router.HandleFunc("/product/{Name}", deleteProduct).Methods("DELETE")
+	//router.HandleFunc("/product/{Name}", updateProduct).Methods("UPDATE")
+	//router.HandleFunc("/product/{Name}", deleteProduct).Methods("DELETE")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
 
+func routerSetup() {
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	client, _ := mongo.Connect(ctx, options.Client().ApplyURI("mongodb+srv://admin:admin@cluster0.ymdy2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"))
+	collection = client.Database("ctcAPI").Collection("products")
+}
+
 //app.Post("/product", CreateProduct)
+var collection *mongo.Collection
 
 func main() {
-	client := ConnectDB()
-	GetCollection(client, "products")
+	routerSetup()
 	handleRequests()
 	/*
 		Products = []Product{
@@ -73,4 +75,5 @@ func main() {
 			{name: "Chevrolet Camaro", price: "$30000", amount: "8"},
 		}
 	*/
+
 }
