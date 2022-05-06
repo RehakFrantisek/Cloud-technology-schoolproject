@@ -2,9 +2,9 @@ package server
 
 import (
 	"github.com/spf13/cobra"
-	"gitlab.com/RehakFrantisek/rehak_clc/ctcgrpc/pkg/api"
-	"gitlab.com/RehakFrantisek/rehak_clc/ctcgrpc/pkg/store"
-	"gitlab.com/RehakFrantisek/rehak_clc/ctcgrpc/pkg/util"
+	"gitlab.com/RehakFrantisek/rehak_clc/assignments/ctcgrpc/pkg/api"
+	"gitlab.com/RehakFrantisek/rehak_clc/assignments/ctcgrpc/pkg/store"
+	"gitlab.com/RehakFrantisek/rehak_clc/assignments/ctcgrpc/pkg/util"
 	etcd "go.etcd.io/etcd/client/v3"
 	"google.golang.org/grpc"
 	"net"

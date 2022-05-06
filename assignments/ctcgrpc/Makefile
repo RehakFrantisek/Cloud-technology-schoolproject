@@ -5,11 +5,11 @@ else
 	DATE := $(shell date -u '+%y%m%d%H%M%S')
 endif
 
-PROJECT_NAMESPACE := gitlab.com/ondrej.smola/ctcgrpc
+PROJECT_NAMESPACE := gitlab.com/RehakFrantisek/rehak_clc/ctcgrpc
 
 GIT_HASH := $(shell git rev-parse --short HEAD)
 PROJECT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
-IMAGE_NAME := ondrejsmola/ctcgrpc:$(PROJECT_BRANCH)-$(GIT_HASH)-$(DATE)
+IMAGE_NAME := rehfran/ctcgrpc:latest
 
 .PHONY: install-proto-dependencies
 install-proto-dependencies:

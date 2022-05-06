@@ -3,7 +3,7 @@ syntax = "proto3";
 
 package core;
 
-option go_package = "gitlab.com/RehakFrantisek/rehak_clc/ctcgrpc/pkg/api";
+option go_package = "gitlab.com/RehakFrantisek/rehak_clc/assignments/ctcgrpc/pkg/api";
 
 
 message GetRequest {
@@ -22,7 +22,15 @@ message GetResponse{
 message PutResponse {
 }
 
+message DeleteRequest {
+  string key = 1;
+}
+
+message DeleteResponse {
+}
+
 service Api {
   rpc Get (GetRequest) returns (GetResponse);
   rpc Put (PutRequest) returns (PutResponse);
+  rpc Delete (DeleteRequest) returns (DeleteResponse);
 }

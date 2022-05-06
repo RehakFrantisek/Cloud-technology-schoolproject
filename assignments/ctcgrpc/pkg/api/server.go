@@ -2,8 +2,8 @@ package api
 
 import (
 	"context"
-	"gitlab.com/RehakFrantisek/rehak_clc/ctcgrpc/pkg"
-	"gitlab.com/RehakFrantisek/rehak_clc/ctcgrpc/pkg/store"
+	"gitlab.com/RehakFrantisek/rehak_clc/assignments/ctcgrpc/pkg"
+	"gitlab.com/RehakFrantisek/rehak_clc/assignments/ctcgrpc/pkg/store"
 )
 
 type Server struct {
@@ -27,6 +27,10 @@ func (s *Server) Get(ctx context.Context, request *GetRequest) (*GetResponse, er
 
 func (s *Server) Put(ctx context.Context, request *PutRequest) (*PutResponse, error) {
 	return &PutResponse{}, s.st.Put(ctx, request.Key, request.Value)
+}
+
+func (s *Server) Delete(ctx context.Context, request *DeleteRequest) (*DeleteResponse, error) {
+	return &DeleteResponse{}, s.st.Delete(ctx, request.Key)
 }
 
 func (s *Server) mustEmbedUnimplementedApiServer() {

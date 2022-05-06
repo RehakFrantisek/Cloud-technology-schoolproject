@@ -2,9 +2,9 @@ package main
 
 import (
 	"github.com/spf13/cobra"
-	"gitlab.com/RehakFrantisek/rehak_clc/ctcgrpc/cmd/client"
-	"gitlab.com/RehakFrantisek/rehak_clc/ctcgrpc/cmd/server"
-	"gitlab.com/RehakFrantisek/rehak_clc/ctcgrpc/pkg/util"
+	"gitlab.com/RehakFrantisek/rehak_clc/assignments/ctcgrpc/cmd/client"
+	"gitlab.com/RehakFrantisek/rehak_clc/assignments/ctcgrpc/cmd/server"
+	"gitlab.com/RehakFrantisek/rehak_clc/assignments/ctcgrpc/pkg/util"
 )
 
 func main() {
